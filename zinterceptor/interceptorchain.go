@@ -4,7 +4,7 @@
  * @description 拦截器管理
  **/
 
-package zcode
+package zinterceptor
 
 import "github.com/aceld/zinx/ziface"
 

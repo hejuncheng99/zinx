@@ -7,7 +7,8 @@ import (
 	"context"
 	"encoding/hex"
 	"errors"
-	"github.com/aceld/zinx/zcode"
+	"fmt"
+	"github.com/aceld/zinx/zinterceptor"
 	"github.com/aceld/zinx/zlog"
 	"github.com/aceld/zinx/zpack"
 	"net"
@@ -66,7 +67,7 @@ func newServerConn(server ziface.IServer, conn net.Conn, connID uint64) *Connect
 		isClosed:           false,
 		msgBuffChan:        nil,
 		property:           nil,
-		lengthFieldDecoder: zcode.NewLengthFieldFrameDecoderByLengthField(server.GetLengthField()),
+		lengthFieldDecoder: zinterceptor.NewLengthFieldFrameDecoderByLengthField(server.GetLengthField()),
 	}
 
 	//从server继承过来的属性
@@ -91,7 +92,7 @@ func newClientConn(client ziface.IClient, conn net.Conn) *Connection {
 		isClosed:           false,
 		msgBuffChan:        nil,
 		property:           nil,
-		lengthFieldDecoder: zcode.NewLengthFieldFrameDecoderByLengthField(client.GetLengthField()),
+		lengthFieldDecoder: zinterceptor.NewLengthFieldFrameDecoderByLengthField(client.GetLengthField()),
 	}
 
 	//从client继承过来的属性
@@ -192,15 +193,18 @@ func (c *Connection) StartReader() {
 				return
 			}
 			zlog.Ins().DebugF("read buffer %s \n", hex.EncodeToString(buffer[0:n]))
+			fmt.Println("read buffer", string(buffer[0:n]))
 
 			//链接是否配置的解码器Docoder
 			if c.lengthFieldDecoder == nil {
+				zlog.Ins().ErrorF("lengthFieldDecoder is nil")
 				continue
 			}
 
 			//为读取到的0-n个字节的数据进行解码
 			bufArrays := c.lengthFieldDecoder.Decode(buffer[0:n])
 			if bufArrays == nil {
+				zlog.Ins().ErrorF("Decode bufArrays is nil")
 				continue
 			}
 

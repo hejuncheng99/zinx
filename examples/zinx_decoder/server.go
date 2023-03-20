@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/aceld/zinx/examples/zinx_decoder/decode"
 	"github.com/aceld/zinx/examples/zinx_decoder/router"
+	"github.com/aceld/zinx/zdecoder"
 	"github.com/aceld/zinx/ziface"
 	"github.com/aceld/zinx/zlog"
 	"github.com/aceld/zinx/znet"
@@ -25,7 +25,7 @@ func main() {
 	s.SetOnConnStop(DoConnectionLost)
 
 	//处理TLV协议数据
-	tlvDecoder := decode.TLVDecoder{}
+	tlvDecoder := zdecoder.TLVDecoder{}
 	s.SetLengthField(tlvDecoder.GetLengthField())
 	s.AddInterceptor(&tlvDecoder)                        //TVL协议解码器
 	s.AddRouter(0x00000001, &router.TLVBusinessRouter{}) //TLV协议对应业务功能

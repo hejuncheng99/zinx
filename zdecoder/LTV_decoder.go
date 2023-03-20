@@ -17,7 +17,7 @@
 //   initialBytesToStrip = 0            (这个0表示返回完整的协议内容Tag+Length+Value，如果只想返回Value内容，去掉Tag的4字节和Length的4字节，此处就是8) 从解码帧中第一次去除的字节数
 //   maxFrameLength      = 2^32 + 4 + 4 (Length为uint类型，故2^32次方表示Value最大长度，此外Tag和Length各占4字节)
 
-package examples
+package zdecoder
 
 import (
 	"bytes"
@@ -29,16 +29,15 @@ import (
 	"unsafe"
 )
 
-const TLV_HEADER_SIZE = 8 //表示TLV空包长度
+const LTV_HEADER_SIZE = 8 //表示TLV空包长度
 
 type LtvData struct {
-	Tag    uint32
 	Length uint32
+	Tag    uint32
 	Value  string
 }
 
-type LTVDecoder struct {
-}
+type LTVDecoder struct{}
 
 func (this *LTVDecoder) GetLengthField() ziface.LengthField {
 	// +---------------+---------------+---------------+
@@ -78,7 +77,7 @@ func (this *LTVDecoder) Intercept(chain ziface.Chain) ziface.Response {
 				zlog.Ins().DebugF("TLV-RawData size:%d data:%s\n", len(data), hex.EncodeToString(data))
 				datasize := len(data)
 				_data := LtvData{}
-				if datasize >= TLV_HEADER_SIZE {
+				if datasize >= LTV_HEADER_SIZE {
 					_data.Length = binary.LittleEndian.Uint32(data[0:4])
 					_data.Tag = binary.LittleEndian.Uint32(data[4:8])
 					value := make([]byte, _data.Length)

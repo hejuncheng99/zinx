@@ -4,7 +4,7 @@
  * @description 通用解码器
  **/
 
-package zcode
+package zinterceptor
 
 import (
 	"bytes"

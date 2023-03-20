@@ -4,7 +4,7 @@
  * @description 通过拦截，处理数据，任务向下传递
  **/
 
-package zcode
+package zinterceptor
 
 import (
 	"github.com/aceld/zinx/ziface"

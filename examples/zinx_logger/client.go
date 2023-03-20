@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/aceld/zinx/examples"
 	"github.com/aceld/zinx/examples/zinx_client/c_router"
+	"github.com/aceld/zinx/zdecoder"
 	"github.com/aceld/zinx/ziface"
 	"github.com/aceld/zinx/zlog"
 	"github.com/aceld/zinx/znet"
@@ -62,7 +62,7 @@ func main() {
 
 	//注册收到服务器消息业务路由
 	client.AddRouter(0, &c_router.PingRouter{})
-	tlvDecoder := examples.LTVDecoder{}
+	tlvDecoder := zdecoder.LTVDecoder{}
 	client.SetLengthField(tlvDecoder.GetLengthField())
 	client.AddInterceptor(&tlvDecoder) //LTV协议解码器
 

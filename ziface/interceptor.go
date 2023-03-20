@@ -15,13 +15,16 @@ type Request interface {
 
 type Response interface {
 }
+
 type Interceptor interface {
 	Intercept(Chain) Response
 }
+
 type Chain interface {
 	Request() Request
 	Proceed(Request) Response
 }
+
 type InterceptorBuilder interface {
 	AddInterceptor(interceptor Interceptor)
 	Execute(request Request) Response

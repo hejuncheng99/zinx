@@ -3,6 +3,7 @@ package znet
 import (
 	"errors"
 	"fmt"
+	"github.com/aceld/zinx/zdecoder"
 	"github.com/aceld/zinx/zlog"
 	"math"
 	"net"
@@ -129,6 +130,12 @@ func NewUserConfServer(config *utils.Config, opts ...Option) ziface.IServer {
 	for _, opt := range opts {
 		opt(s)
 	}
+
+	//设置默认的拦截器
+	tlvDecoder := zdecoder.TLVDecoder{}
+	s.SetLengthField(tlvDecoder.GetLengthField())
+	s.AddInterceptor(&tlvDecoder) //TVL协议解码器
+
 	//刷新用户配置到全局配置变量
 	utils.UserConfToGlobal(config)
 

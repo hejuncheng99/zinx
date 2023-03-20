@@ -3,7 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
-	"github.com/aceld/zinx/examples"
+	"github.com/aceld/zinx/zdecoder"
 	"github.com/aceld/zinx/ziface"
 	"github.com/aceld/zinx/znet"
 	"time"
@@ -68,7 +68,7 @@ func Err() error {
 func main() {
 	s := znet.NewServer()
 	s.AddRouter(1, &TestRouter{})
-	tlvDecoder := examples.LTVDecoder{}
+	tlvDecoder := zdecoder.LTVDecoder{}
 	s.SetLengthField(tlvDecoder.GetLengthField())
 	s.AddInterceptor(&tlvDecoder) //LTV协议解码器
 	s.Serve()

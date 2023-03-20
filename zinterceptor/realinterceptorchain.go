@@ -4,7 +4,7 @@
  * @description 责任链模式
  **/
 
-package zcode
+package zinterceptor
 
 import "github.com/aceld/zinx/ziface"
 

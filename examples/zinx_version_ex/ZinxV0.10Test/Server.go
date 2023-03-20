@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/aceld/zinx/examples"
+	"github.com/aceld/zinx/zdecoder"
 	"github.com/aceld/zinx/ziface"
 	"github.com/aceld/zinx/znet"
 )
@@ -80,7 +80,7 @@ func main() {
 	//配置路由
 	s.AddRouter(0, &PingRouter{})
 	s.AddRouter(1, &HelloZinxRouter{})
-	tlvDecoder := examples.LTVDecoder{}
+	tlvDecoder := zdecoder.LTVDecoder{}
 	s.SetLengthField(tlvDecoder.GetLengthField())
 	s.AddInterceptor(&tlvDecoder) //LTV协议解码器
 

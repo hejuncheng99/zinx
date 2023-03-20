@@ -4,8 +4,8 @@ import (
 	"encoding/hex"
 	"fmt"
 	"github.com/aceld/zinx/utils"
-	"github.com/aceld/zinx/zcode"
 	"github.com/aceld/zinx/ziface"
+	"github.com/aceld/zinx/zinterceptor"
 	"github.com/aceld/zinx/zlog"
 )
 
@@ -24,7 +24,7 @@ func NewMsgHandle() *MsgHandle {
 		WorkerPoolSize: utils.GlobalObject.WorkerPoolSize,
 		//一个worker对应一个queue
 		TaskQueue: make([]chan ziface.IRequest, utils.GlobalObject.WorkerPoolSize),
-		builder:   zcode.NewInterceptorBuilder(),
+		builder:   zinterceptor.NewInterceptorBuilder(),
 	}
 }
 

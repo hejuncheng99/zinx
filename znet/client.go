@@ -2,6 +2,7 @@ package znet
 
 import (
 	"github.com/aceld/zinx/utils"
+	"github.com/aceld/zinx/zdecoder"
 	"github.com/aceld/zinx/ziface"
 	"github.com/aceld/zinx/zlog"
 	"github.com/aceld/zinx/zpack"
@@ -61,6 +62,11 @@ func NewClient(ip string, port int, opts ...ClientOption) ziface.IClient {
 			InitialBytesToStrip: 0,
 		},
 	}
+
+	//默认使用LTV的拦截器及解码器
+	tlvDecoder := zdecoder.TLVDecoder{}
+	c.SetLengthField(tlvDecoder.GetLengthField())
+	c.AddInterceptor(&tlvDecoder) //TVL协议解码器
 
 	//应用Option设置
 	for _, opt := range opts {
